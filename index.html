@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Leon Jordaan Week One</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Schibsted+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+
+/* ─── Design plan ──────────────────────────────────────────────
+   Colour  Cool slate neutrals (--bg/--ink) carrying one blue accent
+           (--blue) for structure, with green/amber/red reserved for
+           state. Same house tokens as the Soul Kitchen review.
+   Type    Fraunces (display serif) · Schibsted Grotesk (body)
+           · DM Mono (all figures, labels, data).
+   Layout  Single-column report: hero → KPI grid → conversion chain
+           → daily delivery → creative → lead log → next week.
+   ───────────────────────────────────────────────────────────── */
+
+:root{
+  --bg:#F2F4F6; --bg2:#E9EDF1; --surface:#FFFFFF; --tint:#EDF2FB; --tint2:#E3EAF7;
+  --ink:#16212B; --ink2:#2B3946; --muted:#5B6773; --muted2:#7C8794;
+  --line:#D8DEE4; --line2:#C3CED9;
+  --blue:#2459C7; --blue2:#173F96; --blueSoft:#4F82E8;
+  --green:#1D7A4B; --amber:#B7791F; --red:#C4322B;
+  --c1:#2459C7; --c2:#1D7A4B; --c3:#6B4FA8; --c4:#B7791F;
+  --green-bg:rgba(29,122,75,.09); --green-line:rgba(29,122,75,.32);
+  --amber-bg:rgba(183,121,31,.10); --amber-line:rgba(183,121,31,.34);
+  --red-bg:rgba(196,50,43,.08); --red-line:rgba(196,50,43,.30);
+  --shadow:0 1px 2px rgba(22,33,43,.04),0 10px 30px rgba(36,89,199,.06);
+  --font-body:'Schibsted Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-mono:'DM Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F161D; --bg2:#0B1116; --surface:#17212A; --tint:#1C2A3A; --tint2:#22344A;
+    --ink:#E7ECF1; --ink2:#C9D3DC; --muted:#98A5B1; --muted2:#7F8D9A;
+    --line:#2B3946; --line2:#3A4B5C;
+    --blue:#7AA2FF; --blue2:#A9C2FF; --blueSoft:#6B8FE8;
+    --green:#4FCB8B; --amber:#E0A94A; --red:#FF7A70;
+    --c1:#3F6FD8; --c2:#2A8F66; --c3:#8A6BD1; --c4:#A9751C;
+    --green-bg:rgba(79,203,139,.10); --green-line:rgba(79,203,139,.34);
+    --amber-bg:rgba(224,169,74,.10); --amber-line:rgba(224,169,74,.34);
+    --red-bg:rgba(255,122,112,.10); --red-line:rgba(255,122,112,.32);
+    --shadow:0 1px 2px rgba(0,0,0,.30),0 10px 30px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F161D; --bg2:#0B1116; --surface:#17212A; --tint:#1C2A3A; --tint2:#22344A;
+  --ink:#E7ECF1; --ink2:#C9D3DC; --muted:#98A5B1; --muted2:#7F8D9A;
+  --line:#2B3946; --line2:#3A4B5C;
+  --blue:#7AA2FF; --blue2:#A9C2FF; --blueSoft:#6B8FE8;
+  --green:#4FCB8B; --amber:#E0A94A; --red:#FF7A70;
+  --c1:#3F6FD8; --c2:#2A8F66; --c3:#8A6BD1; --c4:#A9751C;
+  --green-bg:rgba(79,203,139,.10); --green-line:rgba(79,203,139,.34);
+  --amber-bg:rgba(224,169,74,.10); --amber-line:rgba(224,169,74,.34);
+  --red-bg:rgba(255,122,112,.10); --red-line:rgba(255,122,112,.32);
+  --shadow:0 1px 2px rgba(0,0,0,.30),0 10px 30px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font-body);font-size:16px;line-height:1.55;
+  font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased;
+}
+.page{
+  max-width:1180px;margin:0 auto;
+  padding-block:44px 76px;
+  padding-left:max(20px,env(safe-area-inset-left,0px));
+  padding-right:max(20px,env(safe-area-inset-right,0px));
+}
+::selection{background:var(--blue);color:#fff}
+a{color:var(--blue)}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:3px}
+
+/* header */
+.hero{padding:10px 0 34px;border-bottom:1px solid var(--line)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px var(--tint2);flex-shrink:0}
+h1{font-family:var(--font-display);font-weight:300;font-size:clamp(2.5rem,6vw,4.3rem);line-height:1.01;letter-spacing:-.045em;margin:20px 0 16px;max-width:920px;text-wrap:balance}
+h1 em{font-style:italic;color:var(--blue)}
+.lede{font-size:clamp(1rem,1.5vw,1.13rem);color:var(--muted);max-width:72ch;margin:0 0 24px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.hero-meta b{color:var(--ink);font-weight:500}
+.period-chip{display:inline-flex;align-items:center;gap:8px;background:var(--tint);border:1px solid var(--line2);border-radius:999px;padding:5px 12px;color:var(--blue);font-family:var(--font-mono);font-size:10.5px;letter-spacing:.04em}
+
+/* kpi grid */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:26px}
+.kpi{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 16px 15px;min-height:112px;overflow:hidden;box-shadow:var(--shadow)}
+.kpi::before{content:'';position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--blue),var(--blueSoft) 55%,transparent)}
+.kpi.good::before{background:linear-gradient(90deg,var(--green),var(--green) 55%,transparent)}
+.kpi.warn::before{background:linear-gradient(90deg,var(--amber),var(--amber) 55%,transparent)}
+.k-label{font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.k-value{font-size:clamp(1.4rem,2.2vw,1.9rem);font-weight:600;letter-spacing:-.035em;line-height:1.05;color:var(--ink)}
+.k-value small{font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:0;margin-left:2px}
+.k-sub{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.4;max-width:26ch}
+
+/* sections */
+section{margin-top:56px;scroll-margin-top:20px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:16px}
+.section-kicker{font-family:var(--font-mono);font-size:9.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--blue);margin-bottom:7px}
+h2{font-family:var(--font-display);font-weight:300;font-size:clamp(1.75rem,3.3vw,2.55rem);line-height:1.06;letter-spacing:-.035em;margin:0;text-wrap:balance}
+.section-note{font-size:12.5px;color:var(--muted);max-width:62ch;line-height:1.6;margin:0}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;box-shadow:var(--shadow);min-width:0}
+.panel.tint{background:var(--tint);border-color:var(--line2);box-shadow:none}
+.panel-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+.panel-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.panel-sub{font-family:var(--font-mono);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.chart-grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.chart-grid > *{min-width:0}
+.chart-wrap{position:relative;width:100%;min-width:0}
+.chart-wrap svg{display:block;width:100%;height:auto;overflow:visible}
+
+/* tooltip */
+.tooltip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);border-radius:8px;padding:7px 10px;font-family:var(--font-mono);font-size:10px;line-height:1.55;z-index:8;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.20);opacity:0;transition:opacity .12s ease;left:0;top:0}
+.tooltip.show{opacity:1}
+.tooltip .t-row{display:flex;justify-content:space-between;gap:16px}
+.tooltip .t-key{opacity:.68}
+.tooltip .t-val{font-variant-numeric:tabular-nums}
+
+/* conversion chain */
+.chain{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;align-items:stretch;margin-top:4px}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 15px 13px;min-width:0}
+.stage.live{background:var(--green-bg);border-color:var(--green-line)}
+.stage.dead{background:var(--bg2);border-color:var(--line)}
+.st-label{font-family:var(--font-mono);font-size:8.6px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage.live .st-label{color:var(--green)}
+.st-value{font-size:clamp(1.4rem,2.4vw,1.85rem);font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--ink)}
+.st-sub{font-size:10.6px;color:var(--muted);margin-top:6px;line-height:1.4}
+.link{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:0 8px;min-width:78px}
+.link::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line2);transform:translateY(-7px)}
+.link .rate{position:relative;background:var(--bg);padding:0 5px;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--blue);letter-spacing:-.02em}
+.link .rate.is-low{color:var(--amber)}
+.link .rate-cap{position:relative;background:var(--bg);padding:0 5px;font-family:var(--font-mono);font-size:8.2px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);text-align:center}
+
+/* tables */
+.table-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);margin-top:14px}
+.table-head{padding:16px 18px 10px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:baseline}
+.table-title{font-size:13.5px;font-weight:600;letter-spacing:-.01em}
+.table-note{font-family:var(--font-mono);font-size:9.5px;color:var(--muted);letter-spacing:.03em}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:700px}
+th{font-family:var(--font-mono);font-size:8.8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:right;padding:9px 12px;background:var(--tint);border-bottom:1px solid var(--line);white-space:nowrap;font-weight:400}
+th:first-child{text-align:left}
+td{padding:8px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;font-family:var(--font-mono);font-size:11.4px;color:var(--ink2)}
+td.m{text-align:left;font-family:var(--font-body);font-size:12.2px;font-weight:500;color:var(--ink)}
+tbody tr:hover td{background:var(--tint2)}
+tr.total td{background:var(--tint);font-weight:600;border-top:1px solid var(--line2);color:var(--ink)}
+td.dim{color:var(--muted2)}
+.partial{font-family:var(--font-mono);font-size:8px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:1px 5px;margin-left:4px;vertical-align:1px}
+
+/* lead cards */
+.leads{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.lead{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.lead.open{border-color:var(--green-line);background:linear-gradient(180deg,var(--green-bg),var(--surface) 42%)}
+.lead-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;margin-bottom:2px}
+.lead-name{font-size:15px;font-weight:600;letter-spacing:-.015em;margin:0;color:var(--ink)}
+.lead-when{font-family:var(--font-mono);font-size:9.5px;color:var(--muted);margin-top:3px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:8.6px;text-transform:uppercase;letter-spacing:.09em;padding:3px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);background:var(--bg);white-space:nowrap;flex-shrink:0}
+.pill.open{color:var(--green);border-color:var(--green-line);background:var(--green-bg)}
+.pill.out{color:var(--muted);border-color:var(--line);background:var(--bg2)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:14px 0 0}
+.fact{background:var(--surface);padding:8px 10px;min-width:0}
+.fact .fk{font-family:var(--font-mono);font-size:8.2px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.fact .fv{font-size:11.8px;font-weight:500;color:var(--ink);line-height:1.35}
+.call{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.call .call-label{font-family:var(--font-mono);font-size:8.2px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.call p{margin:0;font-size:11.9px;line-height:1.6;color:var(--ink2)}
+.verdict{margin-top:10px;font-size:11.9px;line-height:1.6;color:var(--muted)}
+.verdict b{color:var(--ink);font-weight:600}
+
+/* insights */
+.insights{display:grid;gap:10px}
+.insight{display:grid;grid-template-columns:34px 1fr;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.insight.blue{background:var(--tint);border-color:var(--line2)}
+.insight.warn{background:var(--amber-bg);border-color:var(--amber-line)}
+.insight.good{background:var(--green-bg);border-color:var(--green-line)}
+.insight .ico{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:var(--font-mono);font-size:11px;font-weight:500;background:var(--blue);color:#fff;flex-shrink:0}
+.insight.warn .ico{background:var(--amber);color:#fff}
+.insight.good .ico{background:var(--green);color:#fff}
+.insight h4{font-size:13.5px;font-weight:600;margin:0 0 4px;letter-spacing:-.01em}
+.insight p{font-size:12.4px;color:var(--muted);line-height:1.65;margin:0;max-width:100ch}
+.insight strong{color:var(--ink);font-weight:600}
+
+/* definitions + footer */
+.defs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.def{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.def b{display:block;font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+.def p{font-size:11.8px;color:var(--muted);margin:0;line-height:1.55}
+.footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.footer p{font-family:var(--font-mono);font-size:10px;color:var(--muted);line-height:1.8;margin:0}
+.footer b{color:var(--ink);font-weight:500}
+
+/* responsive */
+@media (max-width:1000px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .defs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .chart-grid{grid-template-columns:1fr}
+  .leads{grid-template-columns:1fr}
+}
+@media (max-width:820px){
+  .chain{grid-template-columns:1fr;gap:0}
+  .link{flex-direction:row;gap:8px;padding:7px 0;min-width:0}
+  .link::before{top:50%;left:14px;right:auto;width:1px;height:100%;transform:translateY(-50%)}
+  .link .rate,.link .rate-cap{background:var(--bg);padding:0 6px}
+  .link .rate-cap{text-transform:none;letter-spacing:.02em}
+}
+@media (max-width:620px){
+  .page{padding-block:28px 56px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .kpi{padding:13px 13px 12px;min-height:100px}
+  .k-sub{max-width:100%}
+  .defs{grid-template-columns:1fr}
+  .hero{padding-bottom:26px}
+  .lead{padding:15px}
+  .facts{grid-template-columns:1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="hero">
+    <div class="eyebrow"><span class="dot"></span><span>Leon Jordaan · Financial services · Meta Ads · Week one</span></div>
+    <h1>Six days, <em>one open lead</em>.</h1>
+    <p class="lede">R255.96 bought 850 impressions, 53 clicks and three form fills, at a 6.24% click-through rate roughly double what this account's other lead campaigns managed. The ad is finding an audience. The form and the first phone call are where the week was actually decided.</p>
+    <div class="hero-meta">
+      <span class="period-chip">14 – 19 Oct 2026</span>
+      <span>Campaign <b>120252792286410603</b></span>
+      <span>Currency <b>ZAR</b></span>
+      <span>Budget <b>R40 / day</b></span>
+      <span>Pulled <b>19 Oct 2026</b></span>
+    </div>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="k-label">Spend</div>
+      <div class="k-value">R255.96</div>
+      <div class="k-sub">6 days · R42.66 a day</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Impressions</div>
+      <div class="k-value">850</div>
+      <div class="k-sub">645 people · frequency 1.28</div>
+    </div>
+    <div class="kpi good">
+      <div class="k-label">CTR</div>
+      <div class="k-value">6.24<small>%</small></div>
+      <div class="k-sub">Account's other lead campaigns: 3.0–3.3%</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">CPC</div>
+      <div class="k-value">R4.83</div>
+      <div class="k-sub">R2.93 Fri · R14.12 Sat</div>
+    </div>
+    <div class="kpi warn">
+      <div class="k-label">CPM</div>
+      <div class="k-value">R301.13</div>
+      <div class="k-sub">4.5× West Coast's R67.56</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Clicks</div>
+      <div class="k-value">53</div>
+      <div class="k-sub">8.8 a day</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Leads</div>
+      <div class="k-value">3</div>
+      <div class="k-sub">Meta-attributed form fills</div>
+    </div>
+    <div class="kpi warn">
+      <div class="k-label">Cost per lead</div>
+      <div class="k-value">R85.32</div>
+      <div class="k-sub">Account's best historic: R8.73</div>
+    </div>
+    <div class="kpi warn">
+      <div class="k-label">Click to lead</div>
+      <div class="k-value">5.7<small>%</small></div>
+      <div class="k-sub">53 clicks → 3 form fills</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Through to call</div>
+      <div class="k-value">2</div>
+      <div class="k-sub">1 still open · 1 disqualified</div>
+    </div>
+    <div class="kpi good">
+      <div class="k-label">Open opportunities</div>
+      <div class="k-value">1</div>
+      <div class="k-sub">R255.96 of spend per open lead</div>
+    </div>
+    <div class="kpi">
+      <div class="k-label">Impressions / day</div>
+      <div class="k-value">142</div>
+      <div class="k-sub">R40 buys ~133 at this CPM</div>
+    </div>
+  </div>
+
+  <section id="funnel">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">01 · Where the week went</div>
+        <h2>850 people saw it. One is still talking.</h2>
+      </div>
+      <p class="section-note">Each rate is measured against the stage above it. Meta's reporting stops at the form fill; the call outcome comes from the AI qualifier's log.</p>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Conversion chain</div>
+        <div class="panel-sub">14 – 19 Oct · all placements</div>
+      </div>
+      <div class="chain">
+        <div class="stage">
+          <div class="st-label">Impressions</div>
+          <div class="st-value">850</div>
+          <div class="st-sub">645 people reached</div>
+        </div>
+        <div class="link"><span class="rate">6.2%</span><span class="rate-cap">clicked</span></div>
+        <div class="stage">
+          <div class="st-label">Clicks</div>
+          <div class="st-value">53</div>
+          <div class="st-sub">R4.83 each</div>
+        </div>
+        <div class="link"><span class="rate is-low">5.7%</span><span class="rate-cap">filled form</span></div>
+        <div class="stage">
+          <div class="st-label">Leads</div>
+          <div class="st-value">3</div>
+          <div class="st-sub">R85.32 each</div>
+        </div>
+        <div class="link"><span class="rate">67%</span><span class="rate-cap">called</span></div>
+        <div class="stage">
+          <div class="st-label">Through to call</div>
+          <div class="st-value">2</div>
+          <div class="st-sub">1 no-contact · 1 declined</div>
+        </div>
+        <div class="link"><span class="rate">50%</span><span class="rate-cap">still open</span></div>
+        <div class="stage live">
+          <div class="st-label">Open</div>
+          <div class="st-value">1</div>
+          <div class="st-sub">Retry booked</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insights" style="margin-top:14px">
+      <div class="insight warn">
+        <div class="ico">!</div>
+        <div>
+          <h4>The form is where the intent goes missing.</h4>
+          <p>53 clicks produced three form fills. <strong>5.7% is low</strong> — a short instant form normally converts 15–30% of its clicks. People arrived, and then most of them stopped at the first question. That is the single biggest number to move this week.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="daily">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">02 · Delivery, day by day</div>
+        <h2>Two days did the work.</h2>
+      </div>
+      <p class="section-note">19 Oct is a partial day, pulled at 13:32. The dashed line is the R40 daily budget.</p>
+    </div>
+
+    <div class="chart-grid">
+      <div class="panel tint">
+        <div class="panel-head">
+          <div class="panel-title">Daily spend</div>
+          <div class="panel-sub">ZAR</div>
+        </div>
+        <div class="chart-wrap" data-chart="spend"></div>
+      </div>
+      <div class="panel tint">
+        <div class="panel-head">
+          <div class="panel-title">Daily click-through rate</div>
+          <div class="panel-sub">Clicks ÷ impressions</div>
+        </div>
+        <div class="chart-wrap" data-chart="ctr"></div>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-head">
+        <div class="table-title">The week in six rows</div>
+        <div class="table-note">Source: Meta Ads Manager</div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th><th>Spend</th><th>Impressions</th><th>Clicks</th><th>CTR</th><th>CPC</th><th>CPM</th><th>Leads</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="m">Wed 14 Oct</td><td>R65.27</td><td>229</td><td>8</td><td>3.49%</td><td>R8.16</td><td>R285.02</td><td>1</td></tr>
+            <tr><td class="m">Thu 15 Oct</td><td>R52.13</td><td>165</td><td>10</td><td>6.06%</td><td>R5.21</td><td>R315.94</td><td class="dim">—</td></tr>
+            <tr><td class="m">Fri 16 Oct</td><td>R32.20</td><td>135</td><td>11</td><td>8.15%</td><td>R2.93</td><td>R238.52</td><td>1</td></tr>
+            <tr><td class="m">Sat 17 Oct</td><td>R14.12</td><td>42</td><td>1</td><td>2.38%</td><td>R14.12</td><td>R336.19</td><td class="dim">—</td></tr>
+            <tr><td class="m">Sun 18 Oct</td><td>R62.35</td><td>178</td><td>16</td><td>8.99%</td><td>R3.90</td><td>R350.28</td><td>1</td></tr>
+            <tr><td class="m">Mon 19 Oct<span class="partial">partial</span></td><td>R29.89</td><td>101</td><td>7</td><td>6.93%</td><td>R4.27</td><td>R295.94</td><td class="dim">—</td></tr>
+            <tr class="total"><td class="m">Week</td><td>R255.96</td><td>850</td><td>53</td><td>6.24%</td><td>R4.83</td><td>R301.13</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="insights" style="margin-top:14px">
+      <div class="insight blue">
+        <div class="ico">↗</div>
+        <div>
+          <h4>Saturday bought almost nothing.</h4>
+          <p>17 Oct produced <strong>42 impressions and one click</strong> at R14.12 a click, while 18 Oct produced 16 clicks at R3.90. The gap isn't the ad itself — it's that at this budget a single day is 42 to 229 impressions, and one quiet day can't be told apart from a bad one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="leads">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">03 · The lead log</div>
+        <h2>One is still open.</h2>
+      </div>
+      <p class="section-note">Both of these went through to the call step. Outcomes are from the AI qualifier's log; Meta itself only reports the form fill.</p>
+    </div>
+
+    <div class="leads">
+      <article class="lead open">
+        <div class="lead-top">
+          <div>
+            <h3 class="lead-name">Nomazwe Goqa</h3>
+            <div class="lead-when">Sun 18 Oct · 13:32</div>
+          </div>
+          <span class="pill open">Open · retry</span>
+        </div>
+
+        <div class="facts">
+          <div class="fact"><div class="fk">Medical aid</div><div class="fv">Yes</div></div>
+          <div class="fact"><div class="fk">Income</div><div class="fv">R15,000–R24,999</div></div>
+          <div class="fact"><div class="fk">Marital status</div><div class="fv">Single</div></div>
+          <div class="fact"><div class="fk">Knows Vitality</div><div class="fv">No</div></div>
+        </div>
+
+        <div class="call">
+          <div class="call-label">Call outcome</div>
+          <p>The transcript is MTN's automated message — "we will send an SMS to this number notifying them of your call" — not a person. The call never reached her.</p>
+        </div>
+        <div class="verdict"><b>Verdict:</b> meets the form's own criteria on the one question that matters. Retry booked for the next day.</div>
+      </article>
+
+      <article class="lead">
+        <div class="lead-top">
+          <div>
+            <h3 class="lead-name">Denies Edwards</h3>
+            <div class="lead-when">Fri 16 Oct · 21:17</div>
+          </div>
+          <span class="pill out">Disqualified</span>
+        </div>
+
+        <div class="facts">
+          <div class="fact"><div class="fk">Medical aid</div><div class="fv">No</div></div>
+          <div class="fact"><div class="fk">Income</div><div class="fv">R15,000–R24,999</div></div>
+          <div class="fact"><div class="fk">Marital status</div><div class="fv">Divorced</div></div>
+          <div class="fact"><div class="fk">Knows Vitality</div><div class="fv">No</div></div>
+        </div>
+
+        <div class="call">
+          <div class="call-label">Call outcome</div>
+          <p>Asked immediately about a loan. Told the business handles insurance, medical aid and investments — not loans. Declined and ended the call.</p>
+        </div>
+        <div class="verdict"><b>Verdict:</b> the headline did its job and brought money-help intent. The product couldn't serve it.</div>
+      </article>
+    </div>
+
+    <div class="insights" style="margin-top:14px">
+      <div class="insight warn">
+        <div class="ico">!</div>
+        <div>
+          <h4>The dialer read a telco announcement as the customer.</h4>
+          <p>Lead 1's "answer" is MTN's out-of-reach message, transcribed as if she had spoken it. The qualifier then closed the call cleanly. <strong>That's a failed dial dressed up as a completed one</strong> — worth checking how the dialer handles carrier intercepts before the retry, because it will hide real leads the same way.</p>
+        </div>
+      </div>
+      <div class="insight blue">
+        <div class="ico">±</div>
+        <div>
+          <h4>Meta counts three leads; two reached the caller.</h4>
+          <p>One form fill has no matching call record. Pull the full lead export before the next round — it may be a duplicate submission or a lead that never got queued.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="definitions">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">Reference</div>
+        <h2>How each number is built.</h2>
+      </div>
+    </div>
+
+    <div class="defs">
+      <div class="def">
+        <b>CTR</b>
+        <p>All clicks ÷ impressions. Includes every click on the ad, not just the button.</p>
+      </div>
+      <div class="def">
+        <b>CPC</b>
+        <p>Spend ÷ clicks. What one click on the ad cost.</p>
+      </div>
+      <div class="def">
+        <b>CPM</b>
+        <p>Spend ÷ impressions × 1,000. What a thousand views cost — the main driver of how much volume a fixed budget can buy.</p>
+      </div>
+      <div class="def">
+        <b>Click to lead</b>
+        <p>Form fills ÷ clicks. Measures the landing experience, since the ad has already done its job by the click.</p>
+      </div>
+      <div class="def">
+        <b>Cost per lead</b>
+        <p>Spend ÷ form fills. Uses Meta's attributed lead count, before any human or AI qualification.</p>
+      </div>
+      <div class="def">
+        <b>Through to call</b>
+        <p>Leads the AI qualifier actually dialled. A call that fails on a carrier message still counts as dialled, not as reached.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>
+      <b>Leon Jordaan · Financial services</b><br>
+      Campaign 120252792286410603 · Ad account 1782916959212198<br>
+      Source: Meta Ads Manager, pulled 19 Oct 2026 13:32 SAST
+    </p>
+    <p>
+      Lead outcomes: AI qualifier call log<br>
+      Lead form 2529515980902918<br>
+      Prepared by Poelano Agency
+    </p>
+  </footer>
+
+</div>
+<script>
+(function(){
+  'use strict';
+
+  var daily = [
+    {date:'14 Oct', spend:65.27, impr:229, clicks:8,  ctr:3.49, cpc:8.16,  leads:1},
+    {date:'15 Oct', spend:52.13, impr:165, clicks:10, ctr:6.06, cpc:5.21,  leads:0},
+    {date:'16 Oct', spend:32.20, impr:135, clicks:11, ctr:8.15, cpc:2.93,  leads:1},
+    {date:'17 Oct', spend:14.12, impr:42,  clicks:1,  ctr:2.38, cpc:14.12, leads:0},
+    {date:'18 Oct', spend:62.35, impr:178, clicks:16, ctr:8.99, cpc:3.90,  leads:1},
+    {date:'19 Oct', spend:29.89, impr:101, clicks:7,  ctr:6.93, cpc:4.27,  leads:0, partial:true}
+  ];
+
+  var NS = 'http://www.w3.org/2000/svg';
+  function el(name, attrs){
+    var n = document.createElementNS(NS, name);
+    for(var k in attrs){ if(Object.prototype.hasOwnProperty.call(attrs,k)) n.setAttribute(k, attrs[k]); }
+    return n;
+  }
+
+  function makeTip(wrap){
+    var t = wrap.querySelector('.tooltip');
+    if(!t){ t = document.createElement('div'); t.className = 'tooltip'; wrap.appendChild(t); }
+    return t;
+  }
+
+  function bindTip(wrap, node, html){
+    var tip = makeTip(wrap);
+    function show(ev){
+      tip.innerHTML = html;
+      var r = wrap.getBoundingClientRect();
+      var x = ev.clientX - r.left + 12;
+      var y = ev.clientY - r.top - 12;
+      tip.classList.add('show');
+      var tw = tip.offsetWidth, th = tip.offsetHeight;
+      if(x + tw > r.width - 4) x = r.width - tw - 4;
+      if(x < 4) x = 4;
+      if(y - th < 4) y = ev.clientY - r.top + 18;
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    }
+    function hide(){ tip.classList.remove('show'); }
+    node.addEventListener('mousemove', show);
+    node.addEventListener('mouseenter', show);
+    node.addEventListener('mouseleave', hide);
+    node.addEventListener('focus', function(){
+      var r = wrap.getBoundingClientRect(), b = node.getBoundingClientRect();
+      tip.innerHTML = html;
+      tip.classList.add('show');
+      tip.style.left = Math.min(b.left - r.left + 8, r.width - tip.offsetWidth - 4) + 'px';
+      tip.style.top = Math.max(b.top - r.top - tip.offsetHeight - 8, 4) + 'px';
+    });
+    node.addEventListener('blur', hide);
+  }
+
+  var BASE = {
+    w:560, h:212, l:42, r:11, t:18, b:32
+  };
+
+  function axes(svg, maxY, ticks, fmt){
+    var pw = BASE.w - BASE.l - BASE.r;
+    var ph = BASE.h - BASE.t - BASE.b;
+    ticks.forEach(function(v){
+      var y = BASE.t + ph - (v/maxY)*ph;
+      svg.appendChild(el('line', {
+        x1:BASE.l, x2:BASE.l+pw, y1:y, y2:y,
+        stroke:'var(--line)', 'stroke-width':1
+      }));
+      var tx = el('text', {
+        x:BASE.l-8, y:y+3.5, 'text-anchor':'end',
+        fill:'var(--muted)', 'font-family':'var(--font-mono)', 'font-size':'9.8'
+      });
+      tx.textContent = fmt(v);
+      svg.appendChild(tx);
+    });
+  }
+
+  function xLabels(svg, data){
+    var pw = BASE.w - BASE.l - BASE.r;
+    var slot = pw / data.length;
+    data.forEach(function(d,i){
+      var x = BASE.l + slot*i + slot/2;
+      var tx = el('text', {
+        x:x, y:BASE.h-10, 'text-anchor':'middle',
+        fill:'var(--muted)', 'font-family':'var(--font-mono)', 'font-size':'9.4'
+      });
+      tx.textContent = d.date;
+      svg.appendChild(tx);
+    });
+  }
+
+  function renderSpend(wrap){
+    var data = daily;
+    var maxY = 70, ticks = [0,20,40,60];
+    var pw = BASE.w - BASE.l - BASE.r;
+    var ph = BASE.h - BASE.t - BASE.b;
+    var slot = pw / data.length;
+    var bw = Math.min(34, slot*0.46);
+
+    var svg = el('svg', {
+      viewBox:'0 0 ' + BASE.w + ' ' + BASE.h,
+      role:'img',
+      'aria-label':'Daily spend in rand, 14 to 19 October 2026'
+    });
+
+    axes(svg, maxY, ticks, function(v){ return 'R'+v; });
+
+    // budget reference line
+    var by = BASE.t + ph - (40/maxY)*ph;
+    svg.appendChild(el('line', {
+      x1:BASE.l, x2:BASE.l+pw, y1:by, y2:by,
+      stroke:'var(--muted2)', 'stroke-width':1, 'stroke-dasharray':'4 4'
+    }));
+    var bl = el('text', {
+      x:BASE.l+pw, y:by-6, 'text-anchor':'end',
+      fill:'var(--muted)', 'font-family':'var(--font-mono)', 'font-size':'9.2'
+    });
+    bl.textContent = 'R40 budget';
+    svg.appendChild(bl);
+
+    data.forEach(function(d,i){
+      var x = BASE.l + slot*i + (slot-bw)/2;
+      var y = BASE.t + ph - (d.spend/maxY)*ph;
+      var h = BASE.t + ph - y;
+      var bar = el('rect', {
+        x:x, y:y, width:bw, height:Math.max(h,1),
+        rx:4, fill:'var(--c1)',
+        opacity: d.partial ? .55 : 1
+      });
+      svg.appendChild(bar);
+
+      var vl = el('text', {
+        x:x+bw/2, y:y-6, 'text-anchor':'middle',
+        fill:'var(--ink2)', 'font-family':'var(--font-mono)', 'font-size':'9.8'
+      });
+      vl.textContent = 'R' + d.spend.toFixed(1);
+      svg.appendChild(vl);
+
+      var hit = el('rect', {
+        x:BASE.l + slot*i, y:BASE.t, width:slot, height:ph,
+        fill:'transparent', tabindex:'0', role:'button',
+        'aria-label':d.date + ': R' + d.spend.toFixed(2) + ' spent'
+      });
+      svg.appendChild(hit);
+      bindTip(wrap, hit,
+        '<div class="t-row"><span class="t-key">' + d.date + '</span><span class="t-val">R' + d.spend.toFixed(2) + '</span></div>' +
+        '<div class="t-row"><span class="t-key">Impressions</span><span class="t-val">' + d.impr + '</span></div>' +
+        '<div class="t-row"><span class="t-key">Clicks</span><span class="t-val">' + d.clicks + '</span></div>' +
+        '<div class="t-row"><span class="t-key">CPC</span><span class="t-val">R' + d.cpc.toFixed(2) + '</span></div>' +
+        '<div class="t-row"><span class="t-key">Leads</span><span class="t-val">' + d.leads + '</span></div>'
+      );
+    });
+
+    xLabels(svg, data);
+    wrap.appendChild(svg);
+  }
+
+  function renderCtr(wrap){
+    var data = daily;
+    var maxY = 10, ticks = [0,2,4,6,8,10];
+    var pw = BASE.w - BASE.l - BASE.r;
+    var ph = BASE.h - BASE.t - BASE.b;
+    var slot = pw / data.length;
+
+    var svg = el('svg', {
+      viewBox:'0 0 ' + BASE.w + ' ' + BASE.h,
+      role:'img',
+      'aria-label':'Daily click-through rate, 14 to 19 October 2026'
+    });
+
+    axes(svg, maxY, ticks, function(v){ return v+'%'; });
+
+    var pts = data.map(function(d,i){
+      return {
+        x: BASE.l + slot*i + slot/2,
+        y: BASE.t + ph - (d.ctr/maxY)*ph,
+        d: d
+      };
+    });
+
+    var path = pts.map(function(p,i){ return (i ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1); }).join(' ');
+    svg.appendChild(el('path', {
+      d:path, fill:'none', stroke:'var(--c2)',
+      'stroke-width':2, 'stroke-linejoin':'round', 'stroke-linecap':'round'
+    }));
+
+    // selective direct labels: high and low only
+    var maxI = 0, minI = 0;
+    data.forEach(function(d,i){ if(d.ctr > data[maxI].ctr) maxI = i; if(d.ctr < data[minI].ctr) minI = i; });
+
+    pts.forEach(function(p,i){
+      svg.appendChild(el('circle', {
+        cx:p.x, cy:p.y, r:4.2,
+        fill:'var(--surface)', stroke:'var(--c2)', 'stroke-width':2
+      }));
+
+      if(i === maxI || i === minI){
+        var above = i === maxI;
+        var lb = el('text', {
+          x:p.x, y: above ? p.y - 11 : p.y + 17, 'text-anchor':'middle',
+          fill:'var(--ink2)', 'font-family':'var(--font-mono)', 'font-size':'9.8'
+        });
+        lb.textContent = p.d.ctr.toFixed(2) + '%';
+        svg.appendChild(lb);
+      }
+
+      var hit = el('circle', {
+        cx:p.x, cy:p.y, r:16, fill:'transparent',
+        tabindex:'0', role:'button',
+        'aria-label':p.d.date + ': ' + p.d.ctr.toFixed(2) + ' percent CTR'
+      });
+      svg.appendChild(hit);
+      bindTip(wrap, hit,
+        '<div class="t-row"><span class="t-key">' + p.d.date + '</span><span class="t-val">' + p.d.ctr.toFixed(2) + '%</span></div>' +
+        '<div class="t-row"><span class="t-key">Clicks</span><span class="t-val">' + p.d.clicks + '</span></div>' +
+        '<div class="t-row"><span class="t-key">Impressions</span><span class="t-val">' + p.d.impr + '</span></div>' +
+        '<div class="t-row"><span class="t-key">CPC</span><span class="t-val">R' + p.d.cpc.toFixed(2) + '</span></div>'
+      );
+    });
+
+    xLabels(svg, data);
+    wrap.appendChild(svg);
+  }
+
+  var spendWrap = document.querySelector('[data-chart="spend"]');
+  var ctrWrap = document.querySelector('[data-chart="ctr"]');
+  if(spendWrap && window.SVGSVGElement) renderSpend(spendWrap);
+  if(ctrWrap && window.SVGSVGElement) renderCtr(ctrWrap);
+})();
+</script>
+</body>
+</html>
