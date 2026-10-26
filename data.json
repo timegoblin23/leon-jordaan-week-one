@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "campaign": "Leon Jordaan | Financial Services | Lead Generation Campaign",
+    "campaign_id": "120252792286410603",
+    "account_id": "1782916959212198",
+    "currency": "ZAR",
+    "daily_budget": 40,
+    "period_label": "14 – 26 Oct 2026",
+    "pulled": "26 Oct 2026"
+  },
+  "reach": 1173,
+  "benchmarks": {
+    "other_ctr": "3.0–3.3%",
+    "account_cpm": 67.56,
+    "account_cpm_name": "West Coast",
+    "best_cpl": 8.73
+  },
+  "weeks": [
+    { "key": "one", "label": "Week one", "from": "2026-10-14", "to": "2026-10-20" },
+    { "key": "two", "label": "Week two", "from": "2026-10-21", "to": "2026-10-26" }
+  ],
+  "daily": [
+    { "date": "2026-10-14", "dow": "Wed", "day": "14", "spend": 65.27, "impr": 229, "clicks": 8,  "ctr": 3.49,  "cpc": 8.16,  "cpm": 285.02, "leads": 1 },
+    { "date": "2026-10-15", "dow": "Thu", "day": "15", "spend": 52.13, "impr": 165, "clicks": 10, "ctr": 6.06,  "cpc": 5.21,  "cpm": 315.94, "leads": 0 },
+    { "date": "2026-10-16", "dow": "Fri", "day": "16", "spend": 32.20, "impr": 135, "clicks": 11, "ctr": 8.15,  "cpc": 2.93,  "cpm": 238.52, "leads": 1 },
+    { "date": "2026-10-17", "dow": "Sat", "day": "17", "spend": 14.12, "impr": 42,  "clicks": 1,  "ctr": 2.38,  "cpc": 14.12, "cpm": 336.19, "leads": 0 },
+    { "date": "2026-10-18", "dow": "Sun", "day": "18", "spend": 62.35, "impr": 178, "clicks": 16, "ctr": 8.99,  "cpc": 3.90,  "cpm": 350.28, "leads": 1 },
+    { "date": "2026-10-19", "dow": "Mon", "day": "19", "spend": 53.19, "impr": 202, "clicks": 12, "ctr": 5.94,  "cpc": 4.43,  "cpm": 263.32, "leads": 0 },
+    { "date": "2026-10-20", "dow": "Tue", "day": "20", "spend": 34.70, "impr": 105, "clicks": 4,  "ctr": 3.81,  "cpc": 8.68,  "cpm": 330.48, "leads": 0 },
+    { "date": "2026-10-21", "dow": "Wed", "day": "21", "spend": 0.00,  "impr": 0,   "clicks": 0,  "ctr": null,  "cpc": null,  "cpm": null,    "leads": 0, "note": "No delivery" },
+    { "date": "2026-10-22", "dow": "Thu", "day": "22", "spend": 46.87, "impr": 127, "clicks": 3,  "ctr": 2.36,  "cpc": 15.62, "cpm": 369.06, "leads": 0 },
+    { "date": "2026-10-23", "dow": "Fri", "day": "23", "spend": 45.82, "impr": 122, "clicks": 12, "ctr": 9.84,  "cpc": 3.82,  "cpm": 375.57, "leads": 1 },
+    { "date": "2026-10-24", "dow": "Sat", "day": "24", "spend": 36.50, "impr": 121, "clicks": 8,  "ctr": 6.61,  "cpc": 4.56,  "cpm": 301.65, "leads": 3 },
+    { "date": "2026-10-25", "dow": "Sun", "day": "25", "spend": 57.68, "impr": 180, "clicks": 12, "ctr": 6.67,  "cpc": 4.81,  "cpm": 320.44, "leads": 1 },
+    { "date": "2026-10-26", "dow": "Mon", "day": "26", "spend": 26.65, "impr": 85,  "clicks": 2,  "ctr": 2.35,  "cpc": 13.33, "cpm": 313.53, "leads": 0 }
+  ]
+}
