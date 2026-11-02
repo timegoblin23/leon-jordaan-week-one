@@ -49,13 +49,22 @@ week_aggs = {}
 for w in DATA["weeks"]:
     lo, hi = date.fromisoformat(w["from"]), date.fromisoformat(w["to"])
     week_aggs[w["key"]] = agg([r for r in daily if lo <= parse(r) <= hi])
-w1, w2 = week_aggs["one"], week_aggs["two"]
+w1, w2, w3 = week_aggs["one"], week_aggs["two"], week_aggs["three"]
+
+MONTHS = {10: "Oct", 11: "Nov"}
+
+
+def day_label(r):
+    return f'{r["dow"]} {r["day"]} {MONTHS[parse(r).month]}'
 
 priced = [r for r in daily if r["cpc"]]
 best = min(priced, key=lambda r: r["cpc"])
 worst = max(priced, key=lambda r: r["cpc"])
 
 cpl_drop = (w1["cpl"] - w2["cpl"]) / w1["cpl"] * 100
+cpl_w3 = (w3["cpl"] - w2["cpl"]) / w2["cpl"] * 100
+other_days = [r for r in daily if r["spend"] > 0 and r["date"] != "2026-10-31"]
+other_day_avg = sum(r["spend"] for r in other_days) / len(other_days)
 
 
 def money(v):
@@ -97,17 +106,29 @@ tokens = {
     "cpc_worst": f"{worst['cpc']:.2f}",
     "cpc_worst_date": f"{worst['dow']} {worst['day']}",
     # week one
+    "wk1_spend": money(w1["spend"]),
     "wk1_clicks": num(w1["clicks"]),
     "wk1_leads": num(w1["leads"]),
     "wk1_cpl": f"{w1['cpl']:.2f}",
     "wk1_c2l": f"{w1['c2l']:.1f}",
     "wk1_cpm": f"{w1['cpm']:.2f}",
     # week two
+    "wk2_spend": money(w2["spend"]),
     "wk2_clicks": num(w2["clicks"]),
     "wk2_leads": num(w2["leads"]),
     "wk2_cpl": f"{w2['cpl']:.2f}",
     "wk2_c2l": f"{w2['c2l']:.1f}",
     "wk2_cpm": f"{w2['cpm']:.2f}",
+    # week three
+    "wk3_spend": money(w3["spend"]),
+    "wk3_clicks": num(w3["clicks"]),
+    "wk3_leads": num(w3["leads"]),
+    "wk3_cpl": f"{w3['cpl']:.2f}",
+    "wk3_c2l": f"{w3['c2l']:.1f}",
+    "wk3_cpm": f"{w3['cpm']:.2f}",
+    "wk3_ctr": f"{w3['ctr']:.2f}",
+    "cpl_w3_growth": f"{cpl_w3:.0f}",
+    "other_day_avg": f"{other_day_avg:.2f}",
     # benchmarks
     "other_ctr": bench["other_ctr"],
     "account_cpm": f"{bench['account_cpm']:.2f}",
@@ -120,7 +141,7 @@ tokens = {
 rows = []
 for r in daily:
     has = r["ctr"] is not None
-    label = f'{r["dow"]} {r["day"]} Oct'
+    label = day_label(r)
     if r.get("note"):
         label += f'<span class="flag">{r["note"]}</span>'
     cells = [
@@ -139,6 +160,8 @@ tokens["daily_rows"] = "\n".join(rows)
 tokens["daily_json"] = json.dumps(
     [
         {
+            "date": r["date"],
+            "label": day_label(r),
             "day": r["day"],
             "dow": r["dow"],
             "spend": r["spend"],
@@ -162,7 +185,7 @@ leftovers = sorted(set(re.findall(r"\{\{([a-z0-9_]+)\}\}", out)))
 if leftovers:
     raise SystemExit(f"unfilled tokens: {leftovers}")
 
-(ROOT / "index.html").write_text(out)
-print(f"index.html written — {len(out):,} bytes")
+(ROOT / "campaign-analysis-report.html").write_text(out)
+print(f"campaign-analysis-report.html written — {len(out):,} bytes")
 print(f"spend R{tokens['spend']} · {tokens['impressions']} impressions · "
       f"{tokens['clicks']} clicks · {tokens['leads']} leads · R{tokens['cpl']} CPL")

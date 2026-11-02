@@ -5,10 +5,10 @@
     "account_id": "1782916959212198",
     "currency": "ZAR",
     "daily_budget": 40,
-    "period_label": "14 – 26 Oct 2026",
-    "pulled": "26 Oct 2026"
+    "period_label": "14 Oct – 1 Nov 2026",
+    "pulled": "2 Nov 2026"
   },
-  "reach": 1173,
+  "reach": 1588,
   "benchmarks": {
     "other_ctr": "3.0–3.3%",
     "account_cpm": 67.56,
@@ -17,7 +17,8 @@
   },
   "weeks": [
     { "key": "one", "label": "Week one", "from": "2026-10-14", "to": "2026-10-20" },
-    { "key": "two", "label": "Week two", "from": "2026-10-21", "to": "2026-10-26" }
+    { "key": "two", "label": "Week two", "from": "2026-10-21", "to": "2026-10-26" },
+    { "key": "three", "label": "Week three", "from": "2026-10-27", "to": "2026-11-01" }
   ],
   "daily": [
     { "date": "2026-10-14", "dow": "Wed", "day": "14", "spend": 65.27, "impr": 229, "clicks": 8,  "ctr": 3.49,  "cpc": 8.16,  "cpm": 285.02, "leads": 1 },
@@ -32,6 +33,12 @@
     { "date": "2026-10-23", "dow": "Fri", "day": "23", "spend": 45.82, "impr": 122, "clicks": 12, "ctr": 9.84,  "cpc": 3.82,  "cpm": 375.57, "leads": 1 },
     { "date": "2026-10-24", "dow": "Sat", "day": "24", "spend": 36.50, "impr": 121, "clicks": 8,  "ctr": 6.61,  "cpc": 4.56,  "cpm": 301.65, "leads": 3 },
     { "date": "2026-10-25", "dow": "Sun", "day": "25", "spend": 57.68, "impr": 180, "clicks": 12, "ctr": 6.67,  "cpc": 4.81,  "cpm": 320.44, "leads": 1 },
-    { "date": "2026-10-26", "dow": "Mon", "day": "26", "spend": 26.65, "impr": 85,  "clicks": 2,  "ctr": 2.35,  "cpc": 13.33, "cpm": 313.53, "leads": 0 }
+    { "date": "2026-10-26", "dow": "Mon", "day": "26", "spend": 37.75, "impr": 120, "clicks": 2,  "ctr": 1.67,  "cpc": 18.88, "cpm": 314.58, "leads": 0 },
+    { "date": "2026-10-27", "dow": "Tue", "day": "27", "spend": 64.54, "impr": 153, "clicks": 8,  "ctr": 5.23,  "cpc": 8.07,  "cpm": 421.83, "leads": 1 },
+    { "date": "2026-10-28", "dow": "Wed", "day": "28", "spend": 49.68, "impr": 144, "clicks": 10, "ctr": 6.94,  "cpc": 4.97,  "cpm": 345.00, "leads": 0 },
+    { "date": "2026-10-29", "dow": "Thu", "day": "29", "spend": 38.47, "impr": 110, "clicks": 5,  "ctr": 4.55,  "cpc": 7.69,  "cpm": 349.73, "leads": 0 },
+    { "date": "2026-10-30", "dow": "Fri", "day": "30", "spend": 27.67, "impr": 80,  "clicks": 1,  "ctr": 1.25,  "cpc": 27.67, "cpm": 345.88, "leads": 0 },
+    { "date": "2026-10-31", "dow": "Sat", "day": "31", "spend": 4.09,  "impr": 36,  "clicks": 5,  "ctr": 13.89, "cpc": 0.82,  "cpm": 113.61, "leads": 1 },
+    { "date": "2026-11-01", "dow": "Sun", "day": "1",  "spend": 52.73, "impr": 172, "clicks": 6,  "ctr": 3.49,  "cpc": 8.79,  "cpm": 306.57, "leads": 0 }
   ]
 }
