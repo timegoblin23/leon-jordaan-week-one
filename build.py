@@ -49,7 +49,7 @@ week_aggs = {}
 for w in DATA["weeks"]:
     lo, hi = date.fromisoformat(w["from"]), date.fromisoformat(w["to"])
     week_aggs[w["key"]] = agg([r for r in daily if lo <= parse(r) <= hi])
-w1, w2, w3 = week_aggs["one"], week_aggs["two"], week_aggs["three"]
+w1, w2, w3, w4 = week_aggs["one"], week_aggs["two"], week_aggs["three"], week_aggs["four"]
 
 MONTHS = {10: "Oct", 11: "Nov"}
 
@@ -63,7 +63,7 @@ worst = max(priced, key=lambda r: r["cpc"])
 
 cpl_drop = (w1["cpl"] - w2["cpl"]) / w1["cpl"] * 100
 cpl_w3 = (w3["cpl"] - w2["cpl"]) / w2["cpl"] * 100
-other_days = [r for r in daily if r["spend"] > 0 and r["date"] != "2026-10-31"]
+other_days = [r for r in daily if r["spend"] > 0]
 other_day_avg = sum(r["spend"] for r in other_days) / len(other_days)
 
 
@@ -129,6 +129,14 @@ tokens = {
     "wk3_ctr": f"{w3['ctr']:.2f}",
     "cpl_w3_growth": f"{cpl_w3:.0f}",
     "other_day_avg": f"{other_day_avg:.2f}",
+    # week four
+    "wk4_spend": money(w4["spend"]),
+    "wk4_clicks": num(w4["clicks"]),
+    "wk4_leads": num(w4["leads"]),
+    "wk4_cpl": f"{w4['cpl']:.2f}",
+    "wk4_c2l": f"{w4['c2l']:.1f}",
+    "wk4_cpm": f"{w4['cpm']:.2f}",
+    "wk4_ctr": f"{w4['ctr']:.2f}",
     # benchmarks
     "other_ctr": bench["other_ctr"],
     "account_cpm": f"{bench['account_cpm']:.2f}",
